@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro de Usuario</title>
+    <!-- Usamos Google Fonts para un look más moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6B73FF, #000DFF);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        /* Contenedor del formulario */
+        .container {
+            background: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 350px;
+            width: 90%;
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 1.5em;
+            color: #000DFF;
+        }
+        /* Estilo del formulario */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            padding: 0.75em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            padding: 0.75em;
+            background: #000DFF;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #000bbd;
+        }
+        #message {
+            margin-top: 1em;
+            text-align: center;
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Registro de Usuario</h1>
+    <form id="registerForm">
+        <input type="text" id="username" name="username" placeholder="Nombre de Usuario" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+</div>
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, password: password })
+        })
+            .then(response => {
+                if (!response.ok) return response.text().then(text => { throw new Error(text) });
+                return response.text();
+            })
+            .then(text => {
+                alert("Registro exitoso. Redirigiendo a la página de login...");
+                window.location.href = "/login.html";
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Error: ' + error.message;
+            });
+    });
+</script>
+</body>
+</html>
