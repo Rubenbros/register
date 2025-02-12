@@ -29,15 +29,6 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User loginUser(String username, String rawPassword) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
-        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
-            throw new RuntimeException("Contraseña incorrecta.");
-        }
-        return user;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)

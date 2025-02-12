@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Página del Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Estilos modernos y atractivos */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6B73FF, #000DFF);
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            padding: 60px 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .info {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .move {
+            font-size: 2rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .logout-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #FF4081;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #E91E63;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 id="welcome">¡Bienvenido, usuario!</h1>
+    <p class="info">
+        Tu jugada aleatoria es: <span class="move" id="move">Cargando...</span>
+    </p>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</div>
+
+<script>
+    // Llamada para obtener la información del usuario
+    fetch('/api/user-info')
+        .then(response => response.text())
+        .then(username => {
+            document.getElementById('welcome').innerText = '¡Bienvenido, ' + username + '!';
+        })
+        .catch(error => {
+            console.error('Error fetching user info:', error);
+            document.getElementById('welcome').innerText = '¡Bienvenido!';
+        });
+
+    // Llamada para obtener la jugada aleatoria
+    fetch('/api/random-move')
+        .then(response => response.text())
+        .then(move => {
+            document.getElementById('move').innerText = move;
+        })
+        .catch(error => {
+            console.error('Error fetching random move:', error);
+            document.getElementById('move').innerText = 'No disponible';
+        });
+</script>
+</body>
+</html>

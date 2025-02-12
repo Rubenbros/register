@@ -31,7 +31,7 @@ public class SecurityConfig {
                         // URL a la que se envían las credenciales (debe coincidir con el atributo action del formulario)
                         .loginProcessingUrl("/login")
                         // Si el login es exitoso, redirige a bienvenido.html
-                        .defaultSuccessUrl("/bienvenido.html", true)
+                        .defaultSuccessUrl("/indexPlantilla", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
